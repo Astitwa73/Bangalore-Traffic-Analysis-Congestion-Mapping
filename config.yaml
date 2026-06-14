@@ -1,0 +1,63 @@
+congestion:
+  grid_cols: 20
+  grid_rows: 20
+  smoothing_sigma: 1.5
+  thresholds:
+    high: 10
+    low: 2
+    medium: 5
+dataset:
+  annotations_dir: data/annotations/
+  frame_skip: 5
+  frames_dir: data/frames/
+  img_size: 640
+  name: visdrone
+  processed_dir: data/processed/
+  raw_dir: data/raw/
+  vehicle_classes:
+  - 4
+  - 5
+  - 6
+  - 9
+  yolo_class_map:
+    4: 0
+    5: 1
+    6: 2
+    9: 3
+density:
+  bandwidth: 30
+  colormap: jet
+  grid_size: 50
+  heatmap_alpha: 0.55
+  method: kde
+inference:
+  conf_threshold: 0.35
+  iou_threshold: 0.45
+  max_det: 300
+  model_path: best.pt
+project:
+  name: bangalore_traffic_cv
+  output_dir: outputs/
+training:
+  augment: true
+  batch_size: 16
+  device: cpu
+  epochs: 50
+  img_size: 640
+  lr0: 0.01
+  lrf: 0.01
+  model: yolov8m.pt
+  momentum: 0.937
+  patience: 10
+  runs_dir: runs/
+  val_split: 0.2
+  weight_decay: 0.0005
+  workers: 4
+visualization:
+  font_scale: 0.5
+  line_thickness: 1
+  output_fps: 25
+  show_bboxes: true
+  show_congestion: true
+  show_density: true
+  show_stats: true

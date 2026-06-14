@@ -1,0 +1,81 @@
+# ─────────────────────────────────────────────
+#  Bangalore Traffic CV Pipeline — Kaggle Config
+# ─────────────────────────────────────────────
+
+project:
+  name: bangalore_traffic_cv_kaggle
+  output_dir: /kaggle/working/outputs/
+
+# ── Dataset ───────────────────────────────────
+dataset:
+  name: visdrone
+  # Paths for Kaggle environment
+  raw_dir: /kaggle/input/visdrone2019-vid/
+  processed_dir: /kaggle/working/data/processed/
+  frames_dir: /kaggle/working/data/frames/
+  annotations_dir: /kaggle/working/data/annotations/
+
+  # VisDrone category mapping → vehicle classes only
+  vehicle_classes: [4, 5, 6, 9]   # car, van, truck, bus
+  yolo_class_map:
+    4: 0
+    5: 1
+    6: 2
+    9: 3
+  yolo_class_names: ["car", "van", "truck", "bus"]
+
+  # Frame extraction
+  frame_skip: 10         # More skipping for faster preprocessing on Kaggle
+  img_size: 640
+
+# ── Training ──────────────────────────────────
+training:
+  model: yolov8s.pt      # 's' is a good balance for Kaggle P100/T4
+  epochs: 30             # Fewer epochs for demo, increase if needed
+  batch_size: 32         # Larger batch size for GPU
+  img_size: 640
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  patience: 5
+  device: 0              # Use Kaggle GPU
+  workers: 4
+  augment: true
+  val_split: 0.2
+  runs_dir: /kaggle/working/runs/
+
+# ── Inference (Not usually used during Kaggle train but kept for consistency) ──
+inference:
+  conf_threshold: 0.35
+  iou_threshold: 0.45
+  max_det: 300
+  model_path: /kaggle/working/runs/train/weights/best.pt
+
+# ── Density Estimation ────────────────────────
+density:
+  method: kde
+  bandwidth: 30
+  grid_size: 50
+  colormap: jet
+  heatmap_alpha: 0.55
+
+# ── Congestion Mapping ────────────────────────
+congestion:
+  grid_cols: 20
+  grid_rows: 20
+  thresholds:
+    low: 2
+    medium: 5
+    high: 10
+  smoothing_sigma: 1.5
+
+# ── Visualization ─────────────────────────────
+visualization:
+  output_fps: 25
+  show_bboxes: true
+  show_density: true
+  show_congestion: true
+  show_stats: true
+  font_scale: 0.5
+  line_thickness: 1
