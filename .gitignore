@@ -100,14 +100,12 @@ cython_debug/
 *.pt
 *.pth
 *.weights
-data/raw/
+data/raw/*
+!data/raw/.gitkeep
 data/*.mp4
 data/*.csv
-outputs/
+outputs/*
+!outputs/.gitkeep
 *.mp4
 *.png
 *.csv
-
-# Exceptions
-!data/.gitkeep
-!outputs/.gitkeep
